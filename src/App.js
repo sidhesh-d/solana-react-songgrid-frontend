@@ -39,7 +39,7 @@ const App = () => {
     const { solana } = window;
 
     if (solana) {
-        const response = solana.connect();
+        const response = await solana.connect();
         console.log('Connected with ', response.publicKey.toString());
         setWalletAddress(response.publicKey.toString());
     }
