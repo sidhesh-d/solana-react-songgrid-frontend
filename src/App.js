@@ -11,39 +11,38 @@ const App = () => {
 
   const checkIfWalletIsConnected = async () => {
     try {
-      const { solana } = window;
-
-      if (solana) {
-        if (solana.isPhantom) {
-          console.log('Phantom wallet found');
-
-          const response = await solana.connect({ onlyIfTrusted: true });
-          console.log(
-            'Connected with Public Key:',
-            response.publicKey.toString()
-          );
-          setWalletAddress(response.publicKey.toString());
-        }
-      } else {
-        console.log('Make sure you install Phantom wallet');
-      }
-    } catch(error) {
-        console.log(error);
-    }
-  }
-
-  const connectWallet = () => {
-      try {
         const { solana } = window;
 
         if (solana) {
-            const response = solana.connect();
-            console.log('Connected with ', response.publicKey.toString());
-            setWalletAddress(response.publicKey.toString());
+            if (solana.isPhantom) {
+                console.log('Phantom wallet found!');
+                const response = await solana.connect({ onlyIfTrusted: true });
+                console.log(
+                'Connected with Public Key:',
+                response.publicKey.toString()
+                );
+
+                /*
+                * Set the user's publicKey in state to be used later!
+                */
+                setWalletAddress(response.publicKey.toString());
+            }
+        } else {
+            alert('Solana object not found! Get a Phantom Wallet 👻');
         }
-      } catch (error) {
-        console.log(error);
-      }
+    } catch (error) {
+        console.error(error);
+    }
+  };
+
+  const connectWallet = async () => {
+    const { solana } = window;
+
+    if (solana) {
+        const response = solana.connect();
+        console.log('Connected with ', response.publicKey.toString());
+        setWalletAddress(response.publicKey.toString());
+    }
   }
 
   useEffect(() => {
