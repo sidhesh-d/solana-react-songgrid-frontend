@@ -53,11 +53,15 @@ const App = () => {
     return () => window.removeEventListener('load', onLoad);
   }, []);
 
-  const renderNotConnectedContainer = () => {
-    <button className="cta-button connect-wallet-button"
-      onClick={connectWallet}> Connect to Wallet
+  const renderNotConnectedContainer = () => (
+    <button
+      className="cta-button connect-wallet-button"
+      onClick={connectWallet}
+    >
+      Connect to Wallet
     </button>
-  }
+  );
+
 
   return (
   <div className="App">
