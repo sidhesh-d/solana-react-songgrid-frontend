@@ -103,7 +103,7 @@ const App = () => {
       <button type="submit" className="cta-button submit-gif-button">Submit</button>
       </form>
       <div className="gif-grid">
-      {TEST_GIFS.map(gif => (
+      {testGifs.map(gif => (
           <div className="gif-item" key={gif}>
           <img src={gif} alt={gif} />
           </div>
