@@ -1,10 +1,8 @@
-import twitterLogo from './assets/twitter-logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
 
 // Constants
-const TWITTER_HANDLE = '_buildspace';
-const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
+
 const TEST_GIFS = [
 	'https://i.giphy.com/media/eIG0HfouRQJQr1wBzz/giphy.webp',
 	'https://media3.giphy.com/media/L71a8LW2UrKwPaWNYM/giphy.gif?cid=ecf05e47rr9qizx2msjucl1xyvuu47d7kf25tqt2lvo024uo&rid=giphy.gif&ct=g',
@@ -126,7 +124,7 @@ const App = () => {
           {!walletAddress && renderNotConnectedContainer()}
           {walletAddress && renderConnectedContainer()}
         </div>
-        <div >
+        <div>
           {testGifs.map(gif => (
             <p>{gif}</p>
           ))}
