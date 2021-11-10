@@ -13,7 +13,7 @@ const App = () => {
     try {
       const { solana } = window;
 
-      if (!solana) {
+      if (solana) {
         if (solana.isPhantom) {
           console.log('Phantom wallet found');
 
