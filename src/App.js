@@ -7,7 +7,7 @@ const TWITTER_HANDLE = '_buildspace';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
 const App = () => {
-  const [walletAddress, setWalletAddress] = useState("");
+  const [walletAddress, setWalletAddress] = useState(null);
 
   const checkIfWalletIsConnected = async () => {
     try {
@@ -18,8 +18,8 @@ const App = () => {
                 console.log('Phantom wallet found!');
                 const response = await solana.connect({ onlyIfTrusted: true });
                 console.log(
-                'Connected with Public Key:',
-                response.publicKey.toString()
+                  'Connected with Public Key:',
+                  response.publicKey.toString()
                 );
 
                 /*
