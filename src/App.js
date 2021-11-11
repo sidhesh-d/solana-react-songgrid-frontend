@@ -56,10 +56,11 @@ const App = () => {
   const sendGif = async () => {
     if (inputValue.length > 0) {
       console.log('Gif link:', inputValue);
-      let tstGifs = testGifs;
+      var tstGifs = testGifs;
+      console.log('tstGifs:', tstGifs);
       tstGifs.push(inputValue);
       setTestGifs(tstGifs);
-      console.log(testGifs);
+      console.log('testGifs:', testGifs);
     } else {
       console.log('Empty input. Try again.');
     }
