@@ -135,9 +135,9 @@ const App = () => {
   useEffect(() => {
     if (walletAddress) {
       console.log('Fetching GIF list...');
-      //getGifList()
+      getGifList()
     }
-  }, [walletAddress]);
+  }, [walletAddress]);// eslint-disable-line react-hooks/exhaustive-deps
 
   const renderNotConnectedContainer = () => (
     <button
