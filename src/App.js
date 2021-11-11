@@ -135,7 +135,7 @@ const App = () => {
   useEffect(() => {
     if (walletAddress) {
       console.log('Fetching GIF list...');
-      getGifList()
+      //getGifList()
     }
   }, [walletAddress]);
 
