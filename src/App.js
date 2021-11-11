@@ -23,13 +23,6 @@ const opts = {
   preflightCommitment: "processed"
 }
 
-const TEST_GIFS = [
-	'https://i.redd.it/d3t66lv1yce61.jpg',
-	'https://i.redd.it/hycuzfl67mn61.gif',
-	'https://i.redd.it/bhfqa0xn3fl61.gif',
-	'https://i.redd.it/qagyqy780bh61.gif'
-]
-
 const App = () => {
   const [walletAddress, setWalletAddress] = useState(null);
   const [inputValue, setInputValue] = useState('');
@@ -143,7 +136,7 @@ const App = () => {
     if (walletAddress) {
         //setTestGifs(TEST_GIFS);
         console.log('Fetching GIF list...');
-        getGifList();
+        await getGifList();
     };
   }, [walletAddress]);
 
