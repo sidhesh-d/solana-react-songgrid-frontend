@@ -75,7 +75,7 @@ const App = () => {
     return provider;
   }
 
-  const getGifList = async() => {
+  const getGifList = async () => {
     try {
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
@@ -104,24 +104,24 @@ const App = () => {
   };
 
   const createGifAccount = async () => {
-  try {
-    const provider = getProvider();
-    const program = new Program(idl, programID, provider);
-    console.log("ping")
-    await program.rpc.startStuffOff({
-      accounts: {
-        baseAccount: baseAccount.publicKey,
-        user: provider.wallet.publicKey,
-        systemProgram: SystemProgram.programId,
-      },
-      signers: [baseAccount]
-    });
-    console.log("Created a new BaseAccount w/ address:", baseAccount.publicKey.toString())
-    await getGifList();
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+      console.log("ping")
+      await program.rpc.startStuffOff({
+        accounts: {
+          baseAccount: baseAccount.publicKey,
+          user: provider.wallet.publicKey,
+          systemProgram: SystemProgram.programId,
+        },
+        signers: [baseAccount]
+      });
+      console.log("Created a new BaseAccount w/ address:", baseAccount.publicKey.toString())
+      await getGifList();
 
-  } catch(error) {
-    console.log("Error creating BaseAccount account:", error)
-  }
+    } catch(error) {
+      console.log("Error creating BaseAccount account:", error)
+    }
 }
 
   useEffect(() => {
@@ -134,10 +134,9 @@ const App = () => {
 
   useEffect(() => {
     if (walletAddress) {
-        //setTestGifs(TEST_GIFS);
-        console.log('Fetching GIF list...');
-        await getGifList();
-    };
+      console.log('Fetching GIF list...');
+      getGifList()
+    }
   }, [walletAddress]);
 
   const renderNotConnectedContainer = () => (
