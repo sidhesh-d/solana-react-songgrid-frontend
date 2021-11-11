@@ -5,6 +5,7 @@ import { Connection, PublicKey, clusterApiUrl} from '@solana/web3.js';
 import {
   Program, Provider, web3
 } from '@project-serum/anchor';
+import { test } from 'picomatch';
 // Constants
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram, Keypair } = web3;
@@ -148,16 +149,19 @@ const App = () => {
     </button>
   );
   const renderConnectedContainer = () => {
-    // If we hit this, it means the program account hasn't be initialized.
-    if (testGifs === null) {
-      return (
-        <div className="connected-container">
-          <button className="cta-button submit-gif-button" onClick={createGifAccount}>
-            Do One-Time Initialization For GIF Program Account
-          </button>
-        </div>
-      )
-    } else {
+	// If we hit this, it means the program account hasn't be initialized.
+  if (testGifs === null) {
+    return (
+      <div className="connected-container">
+        <button className="cta-button submit-gif-button" onClick={createGifAccount}>
+          Do One-Time Initialization For GIF Program Account
+        </button>
+      </div>
+    )
+  }
+	// Otherwise, we're good! Account exists. User can submit GIFs.
+	else {
+    return(
       <div className="connected-container">
         <form
           onSubmit={(event) => {
@@ -165,23 +169,28 @@ const App = () => {
             sendGif();
           }}
         >
-        <input type="text"
-        placeholder="Enter gif link!"
-        value={inputValue}
-        onChange={onInputChange}/>
-        <button type="submit" className="cta-button submit-gif-button">Submit</button>
+          <input
+            type="text"
+            placeholder="Enter gif link!"
+            value={inputValue}
+            onChange={onInputChange}
+          />
+          <button type="submit" className="cta-button submit-gif-button">
+            Submit
+          </button>
         </form>
         <div className="gif-grid">
-        {testGifs.map(gif => (
-            <div className="gif-item" key={gif}>
-            <img src={gif} alt={gif} />
+					{/* We use index as the key instead, also, the src is now item.gifLink */}
+          {testGifs.map((item, index) => (
+            <div className="gif-item" key={index}>
+              <img src={item.gifLink} />
             </div>
-        ))}
+          ))}
         </div>
       </div>
-    }
-  };
-
+    )
+  }
+}
 
   return (
   <div className="App">
