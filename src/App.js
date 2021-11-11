@@ -94,11 +94,15 @@ const App = () => {
   const sendGif = async () => {
     if (inputValue.length > 0) {
       console.log('Gif link:', inputValue);
-      var tstGifs = [...testGifs];
-      console.log('tstGifs:', tstGifs);
-      tstGifs.push(inputValue);
-      setTestGifs(tstGifs);
-      console.log('testGifs:', testGifs);
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+      await program.rpc.addGif(inputValue, {
+        accounts: {
+          baseAccount: baseAccount.publicKey,
+          user: provider.wallet.publicKey,
+        },
+      });
+      await getGifList();
     } else {
       console.log('Empty input. Try again.');
     }
