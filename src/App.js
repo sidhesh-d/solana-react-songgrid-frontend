@@ -205,11 +205,6 @@ const App = () => {
           {!walletAddress && renderNotConnectedContainer()}
           {walletAddress && renderConnectedContainer()}
         </div>
-        <div>
-          {testGifs.map(gif => (
-            <p>{gif}</p>
-          ))}
-        </div>
       </div>
     </div>
   );
