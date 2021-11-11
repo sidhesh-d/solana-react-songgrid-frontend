@@ -157,7 +157,7 @@ const App = () => {
   );
   const renderConnectedContainer = () => {
     // If we hit this, it means the program account hasn't be initialized.
-    if (gifList === null) {
+    if (testGifs === null) {
       return (
         <div className="connected-container">
           <button className="cta-button submit-gif-button" onClick={createGifAccount}>
