@@ -5,7 +5,7 @@ import { Connection, PublicKey, clusterApiUrl} from '@solana/web3.js';
 import {
   Program, Provider, web3
 } from '@project-serum/anchor';
-import { test } from 'picomatch';
+
 // Constants
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram, Keypair } = web3;
