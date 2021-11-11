@@ -132,6 +132,21 @@ const App = () => {
       console.log("Error creating BaseAccount account:", error)
     }
 }
+  function formatAddress(address) {
+    return address.substring(1,5) + '...' + address.substring(address.length-5)
+  }
+
+  const upvoteGif = async (gif_link) => {
+    console.log('User liked gif index '+gif_link);
+    const provider = getProvider();
+    const program = new Program(idl, programID, provider);
+    await program.rpc.upvoteGif(gif_link, {
+      accounts: {
+        baseAccount: baseAccount.publicKey,
+      },
+    });
+    await getGifList();
+  }
 
   useEffect(() => {
     const onLoad = async () => {
@@ -179,19 +194,30 @@ const App = () => {
         >
           <input
             type="text"
-            placeholder="Enter gif link!"
+            placeholder="Add a spotify link!"
             value={inputValue}
             onChange={onInputChange}
           />
           <button type="submit" className="cta-button submit-gif-button">
-            Submit
+            Add a choon <span >&#127925;</span>
           </button>
         </form>
         <div className="gif-grid">
 					{/* We use index as the key instead, also, the src is now item.gifLink */}
           {testGifs.map((item, index) => (
             <div className="gif-item" key={index}>
-              <img src={item.gifLink} alt="gif" />
+            <iframe src={item.gifLink}  frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            <div className="item-details">
+
+              <div className="item-like">
+                <span className="author-container">Submitted by <span className="author"> {formatAddress(item.userAddress.toString())}</span></span>
+                <a  href="#" onClick={() => upvoteGif(item.gifLink)}>&#128155;</a>
+                <span>{item.upvotes.toString()}</span>
+
+              </div>
+              <button className="beer">Buy <span className="author-btn">{formatAddress(item.userAddress.toString())}</span> a <span>&#127866;</span></button>
+
+            </div>
             </div>
           ))}
         </div>
@@ -204,10 +230,12 @@ const App = () => {
   <div className="App">
 			{/* This was solely added for some styling fanciness */}
 			<div className={walletAddress ? 'authed-container' : 'container'}>
+
         <div className="header-container">
-          <p className="header">🖼 GIF Portal</p>
+          <p className="header">&#127911; Crypto Grooves</p>
+          <div><img src="https://media.tenor.com/images/9290509b91c6a9517f83e204802a2aa2/tenor.gif" width="100px" height="100px"></img></div>
           <p className="sub-text">
-            View your GIF collection in the metaverse ✨
+            Jive to these choonz while building the metaverse &#10024;
           </p>
           {/* Add the condition to show this only if we don't have a wallet address */}
           {!walletAddress && renderNotConnectedContainer()}

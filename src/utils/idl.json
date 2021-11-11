@@ -24,6 +24,22 @@
       "args": []
     },
     {
+      "name": "upvoteGif",
+      "accounts": [
+        {
+          "name": "baseAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "gifLink",
+          "type": "string"
+        }
+      ]
+    },
+    {
       "name": "addGif",
       "accounts": [
         {
@@ -80,6 +96,10 @@
           {
             "name": "userAddress",
             "type": "publicKey"
+          },
+          {
+            "name": "upvotes",
+            "type": "u64"
           }
         ]
       }
