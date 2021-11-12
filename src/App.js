@@ -230,7 +230,7 @@ const App = () => {
 					{/* We use index as the key instead, also, the src is now item.SongLink */}
           {testSongs.map((item, index) => (
             <div className="gif-item" key={index}>
-            <iframe src={item.songLink}  frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            <iframe title={index} src={item.songLink}  frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
             <div className="item-details">
 
               <div className="item-like">
