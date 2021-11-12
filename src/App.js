@@ -235,7 +235,7 @@ const App = () => {
 
               <div className="item-like">
                 <span className="author-container">Submitted by <span className="author"> {formatAddress(item.userAddress.toString())}</span></span>
-                <a  href="#" onClick={() => upvoteSong(item.songLink)}>&#128155;</a>
+                <button className="upvote-btn" onClick={() => upvoteSong(item.songLink)}>&#128155;</button>
                 <span>{item.upvotes.toString()}</span>
               </div>
               <button className="beer" onClick={() => sendSol(item.userAddress.toString())}>Buy <span className="author-btn">{formatAddress(item.userAddress.toString())}</span> a <span>&#127866;</span></button>
@@ -255,7 +255,7 @@ const App = () => {
 
         <div className="header-container">
           <p className="header">&#127911; Crypto Grooves</p>
-          <div><img src="https://media.tenor.com/images/9290509b91c6a9517f83e204802a2aa2/tenor.gif" width="100px" height="100px"></img></div>
+          <div><img src="https://media.tenor.com/images/9290509b91c6a9517f83e204802a2aa2/tenor.gif" width="100px" height="100px" alt="cat jivin"></img></div>
           <p className="sub-text">
             Jive to these choonz while building the metaverse &#10024;
           </p>
