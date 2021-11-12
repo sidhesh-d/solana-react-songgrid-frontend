@@ -3,7 +3,7 @@ import idl from './utils/idl.json';
 import { useEffect, useState } from 'react';
 import { Connection, PublicKey, clusterApiUrl} from '@solana/web3.js';
 import {
-  Program, Provider, web3
+  Program, Provider, web3, BN
 } from '@project-serum/anchor';
 import kp from './keypair.json'
 
@@ -11,7 +11,7 @@ import kp from './keypair.json'
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram } = web3;
 
-// Create a keypair for the account that will hold the GIF data.
+// Create a keypair for the account that will hold the Song data.
 const arr = Object.values(kp._keypair.secretKey);
 const secret = new Uint8Array(arr);
 const baseAccount = web3.Keypair.fromSecretKey(secret);
@@ -27,10 +27,13 @@ const opts = {
   preflightCommitment: "processed"
 }
 
+//amount sent to users
+const beerMoney = 100000000;
+
 const App = () => {
   const [walletAddress, setWalletAddress] = useState(null);
   const [inputValue, setInputValue] = useState('');
-  const [testGifs, setTestGifs] = useState([]);
+  const [testSongs, setTestSongs] = useState([]);
 
   const checkIfWalletIsConnected = async () => {
     console.log(baseAccount);
@@ -68,9 +71,6 @@ const App = () => {
         setWalletAddress(response.publicKey.toString());
     }
   }
-  const onInputChange = (event) => {
-    setInputValue(event.target.value);
-  }
 
   const getProvider = () => {
     const connection = new Connection(network, opts.preflightCommitment);
@@ -80,39 +80,41 @@ const App = () => {
     return provider;
   }
 
-  const getGifList = async () => {
+  const getSongList = async () => {
     try {
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
       const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
 
       console.log("Got the account", account)
-      setTestGifs(account.gifList)
+      setTestSongs(account.songList)
 
     } catch (error) {
-      console.log("Error in getGifs: ", error)
-      setTestGifs(null);
+      console.log("Error in getSongs: ", error)
+      setTestSongs(null);
     }
   }
 
-  const sendGif = async () => {
-    if (inputValue.length > 0) {
-      console.log('Gif link:', inputValue);
+  const sendSong = async () => {
+    if (inputValue.length > 0 &&
+      inputValue.includes('https') &&
+      inputValue.includes('spotify')) {
+      console.log('Song link:', inputValue);
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
-      await program.rpc.addGif(inputValue, {
+      await program.rpc.addSong(inputValue, {
         accounts: {
           baseAccount: baseAccount.publicKey,
           user: provider.wallet.publicKey,
         },
       });
-      await getGifList();
+      await getSongList();
     } else {
-      console.log('Empty input. Try again.');
+      alert("That doesn't look like a spotify link");
     }
   };
 
-  const createGifAccount = async () => {
+  const createSongAccount = async () => {
     try {
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
@@ -126,26 +128,47 @@ const App = () => {
         signers: [baseAccount]
       });
       console.log("Created a new BaseAccount w/ address:", baseAccount.publicKey.toString())
-      await getGifList();
+      await getSongList();
 
     } catch(error) {
       console.log("Error creating BaseAccount account:", error)
     }
 }
-  function formatAddress(address) {
-    return address.substring(1,5) + '...' + address.substring(address.length-5)
-  }
 
-  const upvoteGif = async (gif_link) => {
-    console.log('User liked gif index '+gif_link);
+  const upvoteSong = async (song_link) => {
     const provider = getProvider();
     const program = new Program(idl, programID, provider);
-    await program.rpc.upvoteGif(gif_link, {
+    await program.rpc.upvoteSong(song_link, {
       accounts: {
         baseAccount: baseAccount.publicKey,
       },
     });
-    await getGifList();
+    await getSongList();
+  }
+
+  const sendSol = async (to_address_str) => {
+    const provider = getProvider();
+    const program = new Program(idl, programID, provider);
+    const to_address = new PublicKey(to_address_str);
+    const amount = new BN(parseInt(beerMoney));
+    const transaction = await program.rpc.sendSol(amount, {
+      accounts: {
+        from: provider.wallet.publicKey,
+        to: to_address,
+        systemProgram: SystemProgram.programId,
+      }
+    });
+    console.log('Sent beer money to '+to_address);
+    console.log('transaction '+transaction);
+  }
+
+  const onInputChange = (event) => {
+    setInputValue(event.target.value);
+  }
+
+  const formatAddress = (address) => {
+    //return first five chars and last five chars of the address
+    return address.substring(1,5) + '...' + address.substring(address.length-5)
   }
 
   useEffect(() => {
@@ -158,8 +181,8 @@ const App = () => {
 
   useEffect(() => {
     if (walletAddress) {
-      console.log('Fetching GIF list...');
-      getGifList()
+      console.log('Fetching Song list...');
+      getSongList()
     }
   }, [walletAddress]);// eslint-disable-line react-hooks/exhaustive-deps
 
@@ -171,25 +194,26 @@ const App = () => {
       Connect to Wallet
     </button>
   );
+
   const renderConnectedContainer = () => {
 	// If we hit this, it means the program account hasn't be initialized.
-  if (testGifs === null) {
+  if (testSongs === null) {
     return (
       <div className="connected-container">
-        <button className="cta-button submit-gif-button" onClick={createGifAccount}>
-          Do One-Time Initialization For GIF Program Account
+        <button className="cta-button submit-gif-button" onClick={createSongAccount}>
+          Do One-Time Initialization For Song Grid Program Account
         </button>
       </div>
     )
   }
-	// Otherwise, we're good! Account exists. User can submit GIFs.
+	// Otherwise, we're good! Account exists. User can submit Songs.
 	else {
     return(
       <div className="connected-container">
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            sendGif();
+            sendSong();
           }}
         >
           <input
@@ -203,20 +227,18 @@ const App = () => {
           </button>
         </form>
         <div className="gif-grid">
-					{/* We use index as the key instead, also, the src is now item.gifLink */}
-          {testGifs.map((item, index) => (
+					{/* We use index as the key instead, also, the src is now item.SongLink */}
+          {testSongs.map((item, index) => (
             <div className="gif-item" key={index}>
-            <iframe src={item.gifLink}  frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            <iframe src={item.songLink}  frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
             <div className="item-details">
 
               <div className="item-like">
                 <span className="author-container">Submitted by <span className="author"> {formatAddress(item.userAddress.toString())}</span></span>
-                <a  href="#" onClick={() => upvoteGif(item.gifLink)}>&#128155;</a>
+                <a  href="#" onClick={() => upvoteSong(item.songLink)}>&#128155;</a>
                 <span>{item.upvotes.toString()}</span>
-
               </div>
-              <button className="beer">Buy <span className="author-btn">{formatAddress(item.userAddress.toString())}</span> a <span>&#127866;</span></button>
-
+              <button className="beer" onClick={() => sendSol(item.userAddress.toString())}>Buy <span className="author-btn">{formatAddress(item.userAddress.toString())}</span> a <span>&#127866;</span></button>
             </div>
             </div>
           ))}
