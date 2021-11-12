@@ -146,8 +146,7 @@ const App = () => {
     await getSongList();
   }
 
-  const sendSol = async (to_address_str) => {
-    //this.target.innerHTML="Beer money sent";
+  const sendSol = async (to_address_str, event) => {
     const provider = getProvider();
     const program = new Program(idl, programID, provider);
     const to_address = new PublicKey(to_address_str);
@@ -161,6 +160,8 @@ const App = () => {
     });
     console.log('Sent beer money to '+to_address);
     console.log('transaction '+transaction);
+    event.target.innerHTML="Beer money sent";
+
   }
 
   const onInputChange = (event) => {
@@ -239,11 +240,10 @@ const App = () => {
                 <button className="upvote-btn" onClick={() => upvoteSong(item.songLink)}>&#128155;</button>
                 <span>{item.upvotes.toString()}</span>
               </div>
-              <button className="beer" onClick={(event) => {
-                  sendSol(item.userAddress.toString());
-                  event.target.innerHTML="Beer money sent";
-                }
-                }>Buy <span className="author-btn">{formatAddress(item.userAddress.toString())}</span> a <span>&#127866;</span></button>
+                <button className="beer" onClick={(event) => {
+                    sendSol(item.userAddress.toString(), event);
+                  }
+                  }>Buy <span className="author-btn">{formatAddress(item.userAddress.toString())}</span> a <span>&#127866;</span></button>
             </div>
             </div>
           ))}
