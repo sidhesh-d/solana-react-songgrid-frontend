@@ -147,6 +147,7 @@ const App = () => {
   }
 
   const sendSol = async (to_address_str) => {
+    //this.target.innerHTML="Beer money sent";
     const provider = getProvider();
     const program = new Program(idl, programID, provider);
     const to_address = new PublicKey(to_address_str);
@@ -230,7 +231,7 @@ const App = () => {
 					{/* We use index as the key instead, also, the src is now item.SongLink */}
           {testSongs.map((item, index) => (
             <div className="gif-item" key={index}>
-            <iframe title={index} src={item.songLink}  frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            <iframe title={index} src={item.songLink}  frameBorder="0"  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"></iframe>
             <div className="item-details">
 
               <div className="item-like">
@@ -238,7 +239,11 @@ const App = () => {
                 <button className="upvote-btn" onClick={() => upvoteSong(item.songLink)}>&#128155;</button>
                 <span>{item.upvotes.toString()}</span>
               </div>
-              <button className="beer" onClick={() => sendSol(item.userAddress.toString())}>Buy <span className="author-btn">{formatAddress(item.userAddress.toString())}</span> a <span>&#127866;</span></button>
+              <button className="beer" onClick={(event) => {
+                  sendSol(item.userAddress.toString());
+                  event.target.innerHTML="Beer money sent";
+                }
+                }>Buy <span className="author-btn">{formatAddress(item.userAddress.toString())}</span> a <span>&#127866;</span></button>
             </div>
             </div>
           ))}
