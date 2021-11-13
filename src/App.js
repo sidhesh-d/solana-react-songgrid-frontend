@@ -158,12 +158,11 @@ const App = () => {
         to: to_address,
         systemProgram: SystemProgram.programId,
       }
-    }).then(()=>{
-        console.log('Sent beer money to '+to_address);
-        console.log('transaction '+transaction);
-        event.target.innerHTML="";
-        event.target.innerHTML="<span>🤟&nbsp;Beer money sent</span>"
-    });
+    })
+    console.log('Sent beer money to '+to_address);
+    console.log('transaction '+transaction);
+    event.target.innerHTML="<span>🤟&nbsp;Beer money sent</span>";
+
   }
 
   const onInputChange = (event) => {
@@ -245,9 +244,11 @@ const App = () => {
                 <button className="beer" onClick={(event) => {
                     sendSol(item.userAddress.toString(), event);
                   }
-                  }>Buy&nbsp;
-                  <span className="author-btn">{formatAddress(item.userAddress.toString())}</span> a
-                  <span className="beer-emoji">&#127866;</span>
+                  }>
+                    <span>Buy&nbsp;
+                      <span className="author-btn">{formatAddress(item.userAddress.toString())}</span> a
+                      <span className="beer-emoji">&#127866;</span>
+                    </span>
                 </button>
             </div>
             </div>
