@@ -245,10 +245,8 @@ const App = () => {
                     sendSol(item.userAddress.toString(), event);
                   }
                   }>
-                    <span>Buy&nbsp;
-                      <span className="author-btn">{formatAddress(item.userAddress.toString())}</span> a
-                      <span className="beer-emoji">&#127866;</span>
-                    </span>
+                    Buy&nbsp;{formatAddress(item.userAddress.toString())} a &#127866;
+
                 </button>
             </div>
             </div>
