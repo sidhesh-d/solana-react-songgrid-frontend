@@ -147,6 +147,7 @@ const App = () => {
   }
 
   const sendSol = async (to_address_str, event) => {
+    event.preventDefault();
     const provider = getProvider();
     const program = new Program(idl, programID, provider);
     const to_address = new PublicKey(to_address_str);
@@ -157,12 +158,12 @@ const App = () => {
         to: to_address,
         systemProgram: SystemProgram.programId,
       }
+    }).then(()=>{
+        console.log('Sent beer money to '+to_address);
+        console.log('transaction '+transaction);
+        event.target.innerHTML="";
+        event.target.innerHTML="<span>🤟&nbsp;Beer money sent</span>"
     });
-    console.log('Sent beer money to '+to_address);
-    console.log('transaction '+transaction);
-    event.preventDefault();
-    event.target.innerHTML="";
-    event.target.innerHTML="<span>🤟&nbsp;Beer money sent</span>"
   }
 
   const onInputChange = (event) => {
