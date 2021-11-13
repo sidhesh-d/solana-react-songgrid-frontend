@@ -160,6 +160,7 @@ const App = () => {
     });
     console.log('Sent beer money to '+to_address);
     console.log('transaction '+transaction);
+    event.target.innerText="";
     event.target.innerHTML="Beer money sent";
 
   }
@@ -243,7 +244,10 @@ const App = () => {
                 <button className="beer" onClick={(event) => {
                     sendSol(item.userAddress.toString(), event);
                   }
-                  }>Buy <span className="author-btn">{formatAddress(item.userAddress.toString())}</span> a <span>&#127866;</span></button>
+                  }>Buy
+                  <span className="author-btn">{formatAddress(item.userAddress.toString())}</span> a
+                  <span>&#127866;</span>
+                </button>
             </div>
             </div>
           ))}
