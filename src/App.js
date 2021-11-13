@@ -162,7 +162,7 @@ const App = () => {
     console.log('transaction '+transaction);
     event.target.innerText="";
     event.target.textContent = "";
-    event.target.innerHTML="Beer money sent";
+    event.target.innerHTML="<span>Beer money sent</span>";
 
   }
 
