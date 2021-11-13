@@ -161,6 +161,7 @@ const App = () => {
     console.log('Sent beer money to '+to_address);
     console.log('transaction '+transaction);
     event.target.innerText="";
+    event.target.textContent = "";
     event.target.innerHTML="Beer money sent";
 
   }
