@@ -160,10 +160,9 @@ const App = () => {
     });
     console.log('Sent beer money to '+to_address);
     console.log('transaction '+transaction);
-    event.target.innerText="";
-    event.target.textContent = "";
-    event.target.innerHTML="<span>Beer money sent</span>";
-
+    event.preventDefault();
+    event.target.innerHTML="";
+    event.target.innerHTML="<span>🤟&nbsp;Beer money sent</span>"
   }
 
   const onInputChange = (event) => {
@@ -245,9 +244,9 @@ const App = () => {
                 <button className="beer" onClick={(event) => {
                     sendSol(item.userAddress.toString(), event);
                   }
-                  }>Buy
+                  }>Buy&nbsp;
                   <span className="author-btn">{formatAddress(item.userAddress.toString())}</span> a
-                  <span>&#127866;</span>
+                  <span className="beer-emoji">&#127866;</span>
                 </button>
             </div>
             </div>
