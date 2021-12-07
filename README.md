@@ -1,5 +1,6 @@
-# React webapp to store spotify song links in Solana blockchain
-### Includes tipping(sending sol) to song link contributor
+# React webapp to store spotify song links in Solana blockchain. 
+### Includes tipping(sending sol) to song link contributor.
+### Solana program code: https://github.com/sidhesh-d/solana-song-grid-program
 
 ### To run
 1. Run `npm install` at the root of your directory
